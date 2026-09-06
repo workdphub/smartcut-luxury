@@ -59,7 +59,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/smartcut_luxury
 ## 📁 Project Structure
 
 ```
-smartcut-luxury/
+smarcut-luxury/
 ├── frontend/
 │   ├── public/
 │   ├── src/

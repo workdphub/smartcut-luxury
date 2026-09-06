@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: smartcut-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: smartcut_luxury
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - smartcut-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartcut-backend
+    ports:
+      - "8000:8000"
+    environment:
+      MONGODB_URI: mongodb://root:password@mongodb:27017
+      DATABASE_NAME: smartcut_luxury
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+    depends_on:
+      - mongodb
+    networks:
+      - smartcut-network
+    command: python main.py
+
+volumes:
+  mongodb_data:
+
+networks:
+  smartcut-network:
+    driver: bridge
